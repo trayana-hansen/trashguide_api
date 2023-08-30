@@ -8,7 +8,6 @@ import InstallRouter from "./Routes/install.router.js"
 import CoreRouter from "./Routes/core.router.js"
 import AppRouter from "./Routes/app.router.js"
 
-dotenv.config()
 const port = process.env.PORT || 3000
 
 const app = express()

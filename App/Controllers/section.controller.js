@@ -1,14 +1,15 @@
-import Categories from '../Models/category.model.js'
+import { QueryParamsHandle } from '../../Middleware/helpers.js';
 import Images from '../Models/image.model.js';
+import Sections from '../Models/section.model.js'
+import Categories from '../Models/category.model.js';
 import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
 
 // Definerer relation mellem by og hotel - one to many
-Images.hasMany(Categories)
-Categories.belongsTo(Images)
+Images.hasMany(Sections)
+Sections.belongsTo(Images)
 
-class CategoryController {
+class SectionController {
 
 	/**
 	 * List Metode - henter alle records
@@ -17,28 +18,57 @@ class CategoryController {
 	 * @return {array} Returnerer JSON array
 	 */
 	list = async (req, res) => {
-		const qp = QueryParamsHandle(req, 'id, title')
-		const { incl_types } = req.query
+		// Sortering & constaints
+		const qp = QueryParamsHandle(req, 'id, title, color')
+		// Vars til at styre joins i output
+		const { incl_categories, incl_types } = req.query
 
+		// Deklarerer array med section table joins
 		const arrIncludes = [{
 			model: Images,
 			attributes: ['title', 'filename']
 		}]
 
-		if(incl_types) {
-			// Definerer relation mellem by og hotel - one to many
-			Types.belongsToMany(Categories, { through: CategoryTypeRel });
-			Categories.belongsToMany(Types, { through: CategoryTypeRel });
+		// Hvis categories er true
+		if(incl_categories) {
+			// Definerer category relationer 
+			Sections.hasMany(Categories)
+			Categories.belongsTo(Sections)
 
+			Images.hasMany(Categories)
+			Categories.belongsTo(Images)
+
+			// Deklarerer array med category table joins
+			const arrCatIncludes = [{
+				model: Images,
+				attributes: ['title', 'filename']
+			}]
+
+			// Hvis types er true
+			if(incl_types) {
+				// Definerer types relationer 
+				Types.belongsToMany(Categories, { through: CategoryTypeRel });
+				Categories.belongsToMany(Types, { through: CategoryTypeRel });
+				
+				// Deklarerer array med types table joins
+				arrCatIncludes.push({
+					model: Types,
+					attributes: ['id','title']
+				})
+
+			}
+
+			// Samler join array
 			arrIncludes.push({
-				model: Types,
+				model: Categories,
 				attributes: ['title'],
-			})			
-		}		
+				include: arrCatIncludes
+			})		
+		}
 
 		try {
 			// Kalder SQ model
-			const result = await Categories.findAll({
+			const result = await Sections.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: qp.attributes,
@@ -54,57 +84,6 @@ class CategoryController {
 	}
 
 	/**
-	 * Search Metode - henter alle records ud fra en funden søgestrengf 
-	 * @param {object} req 
-	 * @param {object} res 
-	 * @return {array} Returnerer JSON array
-	 */
-	 search = async(req, res) => {
-		const { keyword } = req.params
-
-		if(keyword) {
-			try {
-				// Sætter resultat med sq metode
-				const result = await Events.findAll({
-					// where clause
-					where: {
-						// Søg på titel
-						title: {
-							[Op.like]: `%${req.params.keyword}%`
-						},
-						// Søg på titel
-						description: {
-							[Op.like]: `%${req.params.keyword}%`
-						} 
-					},
-					// Attributter: array med felter
-					attributes: ['id', 'title', 'image', 'startdate', 'stopdate'],
-					// Inkluderer relationelle data fra artist via id
-					include: [{
-						model: GenreModel,
-						attributes: ['id', 'name']
-					},
-					{
-						model: StageModel,
-						attributes: ['id', 'name']
-					}]
-				})
-				// Parser result som json
-				res.json(result)
-			} catch (err) {
-				res.status(403).send({
-					message: `Something went wrong: ${err}`
-				})					
-			}			
-		} else {
-			res.status(403).send({
-				message: 'Wrong parameter values'
-			})
-		}
-	}
-
-
-	/**
 	 * GET Metode henter record ud fra id
 	 * @param {object} req 
 	 * @param {object} res 
@@ -116,17 +95,14 @@ class CategoryController {
 		if(id) {
 			// Sætter resultat efter sq metode
 			try {
-				const result = await Events.findOne({
+				const result = await Sections.findOne({
 					attributes: [
-						'id', 'title', 'description', 'image', 'startdate', 'stopdate', 'duration_minutes',
+						'id', 'title', 'description', 'color', 'created_at', 'updated_at',
 						'price', 'created_at'
 					],
 					include: [{
-						model: GenreModel,
-						attributes: ['id', 'name']
-					}, {
-						model: StageModel,
-						attributes: ['id', 'name']
+						model: Images,
+						attributes: ['id', 'name', 'filename']
 					}],
 					// Where clause
 					where: { id: req.params.id}
@@ -154,13 +130,11 @@ class CategoryController {
 	 * @return {number} Returnerer nyt id
 	 */
 	 create = async (req, res) => {
-		const { 
-				title, description, image, startdate, stopdate, duration_minutes, 
-				price, genre_id, stage_id } = req.body
+		const { title, description, color, image_id } = req.body
 
-		if(title && description && image && startdate && stopdate && genre_id && stage_id) {
+		if(title && description && color && image_id) {
 			try {
-				const model = await Events.create(req.body)
+				const model = await Sections.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -184,12 +158,11 @@ class CategoryController {
 	 */	
 	 update = async (req, res) => {
 		const { id } = req.params
-		const { title, description, image, startdate, stopdate, duration_minutes, 
-			price, genre_id, stage_id } = req.body
+		const { title, description, color, image_id } = req.body
 
-		if(id && title && description && image && startdate && stopdate) {
+		if(id) {
 			try {
-				const model = await Events.update(req.body, {
+				const model = await Sections.update(req.body, {
 					where: {id: id}
 				})
 				return res.json({
@@ -217,7 +190,7 @@ class CategoryController {
 
 		if(id) {
 			try {
-				await Events.destroy({ 
+				await Sections.destroy({ 
 					where: { id: id }
 				})
 				res.sendStatus(200)
@@ -235,4 +208,4 @@ class CategoryController {
 	}	
 }
 
-export default CategoryController
+export default SectionController

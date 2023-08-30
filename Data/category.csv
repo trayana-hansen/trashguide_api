@@ -1,2 +1,10 @@
-"id","title","description","color","image_id"
-1,"Restaffald","Dagligdags affald","00ff00",1
+"id","section_id","title","icon_id","image_id"
+1,1,"Asfalt",1,18,19
+2,1,"Beton",1,1,20,21
+3,1,"Murbrokker",22,23
+4,1,"Gips",24,25
+5,1,"Glasuld & Stenuld",26,27
+6,1,"Mursten & Tegl",28,29
+7,1,"Tagpap",30,31
+8,1,"Toiletter & Håndvaske",32,33
+9,1,"Vinduer",34,35

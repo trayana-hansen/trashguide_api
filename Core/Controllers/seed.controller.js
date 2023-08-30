@@ -10,13 +10,16 @@ import UserGroupRel from '../../Core/Models/user-group-rel.model.js';
 
 import Categories from '../../App/Models/category.model.js';
 import Images from '../../App/Models/image.model.js';
+import Types from '../../App/Models/type.model.js';
+import Sections from '../../App/Models/section.model.js';
+import CategoryTypeRel from '../../App/Models/category_type_rel.model.js';
 
 /**
  * Controller for Seed Actions
  */
 class SeedController {
 	constructor() {
-		console.log('Class Seed Controller: Running seeds');
+		console.log('TrashGuide Seed Controller: Running seeds');
 	} 
 
 	seed_from_csv = async () => {
@@ -37,15 +40,32 @@ class SeedController {
 			const userData = await this.get_csv_data('user.csv')
 			const insertedUser = await Users.bulkCreate(userData, { transaction });
 
+			// User Groups Relations
+			const userGroupsData = await this.get_csv_data('user-group-rel.csv')
+			const insertedUserGroups = await UserGroupRel.bulkCreate(userGroupsData, { transaction });
+
+
 			//////////////////// 
 
-			// Genre
-			const categoryData = await this.get_csv_data('category.csv')
-			const insertedGenre = await Genres.bulkCreate(categoryData, { transaction });
-
-			// Genre
+			// Images
 			const imageData = await this.get_csv_data('image.csv')
-			const insertedImage = await Genres.bulkCreate(imageData, { transaction });
+			const insertedImage = await Images.bulkCreate(imageData, { transaction });
+
+			// Sections
+			const sectionData = await this.get_csv_data('section.csv')
+			const insertedSection = await Sections.bulkCreate(sectionData, { transaction });
+
+			// Categories
+			const categoryData = await this.get_csv_data('category.csv')
+			const insertedCategory = await Categories.bulkCreate(categoryData, { transaction });
+
+			// Types
+			const typeData = await this.get_csv_data('type.csv')
+			const insertedType = await Types.bulkCreate(typeData, { transaction });
+
+			// Types
+			const categoryTypeData = await this.get_csv_data('category_type_rel.csv')
+			const insertedCategoryType = await CategoryTypeRel.bulkCreate(categoryTypeData, { transaction });
 
 
 			// Confirm transaction
