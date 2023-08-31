@@ -1,18 +1,13 @@
-"id","title","description","color","image_id"
-1,"Byggeri","Byggematerialer, vinduer og døre","004679",2
-2,"Deponi","Til nedgravning","2B2C2E",3
-3,"Elektronik","Køkkenmaskiner, musikanlæg og kabler","F18700",4
-4,"Farligt","Batterier og kemikalier","E30620",5
-5,"Glas","Glas og flasker","28A745",6
-6,"Gummi","Dæk og slanger","2B2C2E",7
-7,"Haveaffald og jord","Græs, jord og grene","06682D",8
-8,"Madaffald","Skræl og rester","00ff00",10
-9,"Madresser og sofaer","Det bløde der ej mere kan bruges","2B2C2E",11
-10,"Mad og drikkekartoner","Pap til mælk og morgenmaden","00ff00",9
-11,"Metal","Heavy affald & dødsmetal","607179",12
-12,"Pap","Flyttekasser og fagbøger","C4A167",13
-13,"Papir","Aviser og reklamer","017EC0",14
-14,"Småt brændbart","Ting som kan fjernes med en tændstik","2B2C2E",1
-15,"Tekstilaffald","Tøj som ikke passer ind","951C3F",16
-16,"Træ","Møbler og makværk","7F652B",17
-17,"Plastik","Ting som nok ikke skal brænde","7F652B",15
+"id","title","description","color","image_filename"
+1,"Byggeri","Byggematerialer, vinduer og døre","004679","byggeri.jpg"
+2,"Deponi","Til nedgravning","2B2C2E","deponi.jpg"
+3,"Elektronik","Køkkenmaskiner, musikanlæg og kabler","F18700","elektronik.jpg"
+4,"Farligt","Batterier og kemikalier","E30620","farligt-affald.png"
+5,"Glas","Glas og flasker","28A745","glas.png"
+6,"Natur","Græs, jord og grene","06682D","natur.jpg"
+7,"Metal","Heavy affald & dødsmetal","607179","metal.jpg"
+8,"Pap","Flyttekasser og fagbøger","C4A167","pap.png"
+9,"Papir","Aviser og reklamer","017EC0","papir.png"
+10,"Tekstiler","Tøj som ikke passer ind","951C3F","tekstil.png"
+11,"Træ","Møbler og makværk","7F652B","trae.png"
+12,"Plastik","Ting som nok ikke skal brænde","7F652B","plast.png"

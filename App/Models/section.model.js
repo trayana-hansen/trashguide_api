@@ -1,6 +1,5 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Images from './image.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
 class Sections extends Model {}
@@ -27,13 +26,9 @@ Sections.init({
 		type: DataTypes.STRING,
 		allowNull: true
 	},
-	image_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
-		references: {
-			model: Images,
-			key: 'id'
-		}
+	image_filename: {
+		type: DataTypes.STRING,
+		allowNull: true
 	}
 }, {
 	sequelize, // Sequelize objekt

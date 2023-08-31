@@ -3,6 +3,7 @@ const AppRouter = express.Router()
 import SectionController from '../App/Controllers/section.controller.js'
 import { Authorize } from '../Middleware/auth.js'
 import CategoryController from '../App/Controllers/category.controller.js'
+import TypeController from '../App/Controllers/type.controller.js'
 
 // Section Routes
 const sectioncontrol = new SectionController
@@ -15,6 +16,14 @@ AppRouter.delete('/section/:id([0-9]*)', (req, res) => { sectioncontrol.remove(r
 // Category Routes
 const catcontrol = new CategoryController
 AppRouter.get('/categories/:section_id([0-9]*)', (req, res) => { catcontrol.list(req, res) })
+//AppRouter.get('/category/:id([0-9]*)', (req, res) => { catcontrol.details(req, res) })
+AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
+AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })
+AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(req, res) })
+
+// Type Routes
+const typecontrol = new TypeController
+AppRouter.get('/types/:category_id([0-9]*)', (req, res) => { typecontrol.list(req, res) })
 //AppRouter.get('/category/:id([0-9]*)', (req, res) => { catcontrol.details(req, res) })
 AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
 AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })

@@ -1,7 +1,12 @@
 import { Sequelize } from 'sequelize'
 import Types from '../Models/type.model.js'
 import { QueryParamsHandle } from '../../Middleware/helpers.js';
+import Categories from '../Models/category.model.js';
+import CategoryTypeRel from '../Models/category_type_rel.model.js';
 
+// Many to many relation
+Types.belongsToMany(Categories, { through: CategoryTypeRel });
+Categories.belongsToMany(Types, { through: CategoryTypeRel });
 class TypesController {
 
 	/**
@@ -12,16 +17,25 @@ class TypesController {
 	 */
 	list = async (req, res) => {
 		const qp = QueryParamsHandle(req, 'id, title')
+		const { category_id } = req.params
 
 		try {
 			// Kalder SQ model
 			const result = await Types.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
-				attributes: qp.attributes
+				attributes: qp.attributes,
+				include: {
+					model: Categories,
+					attributes: [],
+					where: { id: category_id }
+				}
 			})
 			// Parser resultat som json
-			res.json(result)
+			res.json({
+				category_id: category_id, 
+				types: result
+			})
 		} catch(err) {
 			res.status(418).send({
 				message: `Unable to list records: ${err}`

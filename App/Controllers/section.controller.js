@@ -5,10 +5,6 @@ import Categories from '../Models/category.model.js';
 import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 
-// Definerer relation mellem by og hotel - one to many
-Images.hasMany(Sections)
-Sections.belongsTo(Images)
-
 class SectionController {
 
 	/**
@@ -19,15 +15,12 @@ class SectionController {
 	 */
 	list = async (req, res) => {
 		// Sortering & constaints
-		const qp = QueryParamsHandle(req, 'id, title, color')
+		const qp = QueryParamsHandle(req, 'id, title, color, image_filename')
 		// Vars til at styre joins i output
 		const { incl_categories, incl_types } = req.query
 
 		// Deklarerer array med section table joins
-		const arrIncludes = [{
-			model: Images,
-			attributes: ['title', 'filename']
-		}]
+		const arrIncludes = []
 
 		// Hvis categories er true
 		if(incl_categories) {

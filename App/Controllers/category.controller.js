@@ -1,12 +1,7 @@
 import Categories from '../Models/category.model.js'
-import Images from '../Models/image.model.js';
 import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 import { QueryParamsHandle } from '../../Middleware/helpers.js';
-
-// Definerer relation mellem by og hotel - one to many
-Images.hasMany(Categories)
-Categories.belongsTo(Images)
 
 class CategoryController {
 
@@ -20,10 +15,7 @@ class CategoryController {
 		const qp = QueryParamsHandle(req, 'id, title')
 		const { incl_types } = req.query
 
-		const arrIncludes = [{
-			model: Images,
-			attributes: ['title', 'filename']
-		}]
+		const arrIncludes = []
 
 		if(incl_types) {
 			// Definerer relation mellem by og hotel - one to many

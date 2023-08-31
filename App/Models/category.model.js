@@ -28,21 +28,13 @@ Categories.init({
 		allowNull: false,
 		defaultValue: 'Ikke navngivet'
 	},
-	icon_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
-		references: {
-			model: Images,
-			key: 'id'
-		}
+	icon_filename: {
+		type: DataTypes.STRING,
+		allowNull: true
 	},
-	image_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true,
-		references: {
-			model: Images,
-			key: 'id'
-		}
+	image_filename: {
+		type: DataTypes.STRING,
+		allowNull: true
 	}	
 }, {
 	sequelize, // Sequelize objekt
