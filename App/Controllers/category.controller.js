@@ -24,7 +24,11 @@ class CategoryController {
 
 			arrIncludes.push({
 				model: Types,
-				attributes: ['title'],
+				attributes: ['id','title'],
+				through: {
+					attributes: ['is_allowed', 'is_station', 'is_home'],
+					as: 'rules'
+				}
 			})			
 		}		
 

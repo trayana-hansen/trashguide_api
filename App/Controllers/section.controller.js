@@ -1,5 +1,4 @@
 import { QueryParamsHandle } from '../../Middleware/helpers.js';
-import Images from '../Models/image.model.js';
 import Sections from '../Models/section.model.js'
 import Categories from '../Models/category.model.js';
 import Types from '../Models/type.model.js';
@@ -28,14 +27,8 @@ class SectionController {
 			Sections.hasMany(Categories)
 			Categories.belongsTo(Sections)
 
-			Images.hasMany(Categories)
-			Categories.belongsTo(Images)
-
 			// Deklarerer array med category table joins
-			const arrCatIncludes = [{
-				model: Images,
-				attributes: ['title', 'filename']
-			}]
+			const arrCatIncludes = []
 
 			// Hvis types er true
 			if(incl_types) {
@@ -46,7 +39,11 @@ class SectionController {
 				// Deklarerer array med types table joins
 				arrCatIncludes.push({
 					model: Types,
-					attributes: ['id','title']
+					attributes: ['id','title'],
+					through: {
+						attributes: ['is_allowed', 'is_station', 'is_home'],
+						as: 'rules'
+					}
 				})
 
 			}
@@ -54,7 +51,7 @@ class SectionController {
 			// Samler join array
 			arrIncludes.push({
 				model: Categories,
-				attributes: ['title'],
+				attributes: ['title', 'icon_filename', 'image_filename'],
 				include: arrCatIncludes
 			})		
 		}

@@ -25,6 +25,7 @@ class TypesController {
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: qp.attributes,
+
 				include: {
 					model: Categories,
 					attributes: [],

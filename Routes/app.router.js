@@ -4,6 +4,7 @@ import SectionController from '../App/Controllers/section.controller.js'
 import { Authorize } from '../Middleware/auth.js'
 import CategoryController from '../App/Controllers/category.controller.js'
 import TypeController from '../App/Controllers/type.controller.js'
+import NewsController from '../App/Controllers/news.controller.js'
 
 // Section Routes
 const sectioncontrol = new SectionController
@@ -28,5 +29,10 @@ AppRouter.get('/types/:category_id([0-9]*)', (req, res) => { typecontrol.list(re
 AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
 AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })
 AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(req, res) })
+
+// News Routes
+const newscontrol = new NewsController
+AppRouter.get('/news', (req, res) => { newscontrol.list(req, res) })
+AppRouter.get('/news/:id([0-9]*)', (req, res) => { newscontrol.details(req, res) })
 
 export default AppRouter

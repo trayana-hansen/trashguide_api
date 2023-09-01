@@ -9,10 +9,11 @@ import Users from '../../Core/Models/user.model.js';
 import UserGroupRel from '../../Core/Models/user-group-rel.model.js';
 
 import Categories from '../../App/Models/category.model.js';
-//import Images from '../../App/Models/image.model.js';
+import Image from '../../App/Models/image.model.js';
 import Types from '../../App/Models/type.model.js';
 import Sections from '../../App/Models/section.model.js';
 import CategoryTypeRel from '../../App/Models/category_type_rel.model.js';
+import News from '../../App/Models/news.model.js';
 
 /**
  * Controller for Seed Actions
@@ -47,6 +48,10 @@ class SeedController {
 
 			//////////////////// 
 
+			// Images
+			const imageData = await this.get_csv_data('image.csv')
+			const insertedImage = await Image.bulkCreate(imageData, { transaction });
+
 			// Sections
 			const sectionData = await this.get_csv_data('section.csv')
 			const insertedSection = await Sections.bulkCreate(sectionData, { transaction });
@@ -62,6 +67,10 @@ class SeedController {
 			// Types
 			const categoryTypeData = await this.get_csv_data('category_type_rel.csv')
 			const insertedCategoryType = await CategoryTypeRel.bulkCreate(categoryTypeData, { transaction });
+
+			// Sections
+			const newsData = await this.get_csv_data('news.csv')
+			const insertedNews = await News.bulkCreate(newsData, { transaction });
 
 
 			// Confirm transaction

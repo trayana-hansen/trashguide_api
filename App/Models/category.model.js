@@ -1,6 +1,5 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Images from './image.model.js'
 import Sections from './section.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
