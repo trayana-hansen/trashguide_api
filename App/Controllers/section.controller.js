@@ -3,6 +3,7 @@ import Sections from '../Models/section.model.js'
 import Categories from '../Models/category.model.js';
 import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
+import { Sequelize } from 'sequelize';
 
 class SectionController {
 
@@ -14,7 +15,7 @@ class SectionController {
 	 */
 	list = async (req, res) => {
 		// Sortering & constaints
-		const qp = QueryParamsHandle(req, 'id, title, color, image_filename')
+		const qp = QueryParamsHandle(req, 'id, title, color, filename')
 		// Vars til at styre joins i output
 		const { incl_categories, incl_types } = req.query
 
@@ -51,7 +52,19 @@ class SectionController {
 			// Samler join array
 			arrIncludes.push({
 				model: Categories,
-				attributes: ['title', 'icon_filename', 'image_filename'],
+				attributes: [
+					'title', 
+					[Sequelize.fn(
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Icons/', 
+						Sequelize.col('icon_filename')
+					), 'icon_filename'],
+					[Sequelize.fn(
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Categories/', 
+						Sequelize.col('image_filename')
+					), 'image_filename']
+				],
 				include: arrCatIncludes
 			})		
 		}
@@ -61,7 +74,15 @@ class SectionController {
 			const result = await Sections.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
-				attributes: qp.attributes,
+				attributes: [
+					'id', 
+					'title',
+					[Sequelize.fn(
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Categories/', 
+						Sequelize.col('filename')
+					), 'filename']					
+				],
 				include: arrIncludes
 			})
 			// Parser resultat som json

@@ -1,2 +1,7 @@
 "id","name","address","zipcode","city","country","email","phone"
 1,"TechCollege","Øster Uttrupvej 1A","9000","Aalborg","Danmark","info@techcollege.dk","12345678"
+2,"Krastrup Genbrugsplads","Mølholmvej 20B","9520","Skørping","Danmark","affald@rebild.dk","99887691"
+3,"Genbrugspladsen i Sørup","Hjedsbækvej 107","9530","Støvring","Danmark","affald@rebild.dk","99889375"
+4,"Genbrugspladsen Over Kæret","Over Bækken 2","9000","Aalborg","Danmark","info@sorupgenbrug.dk","99314955"
+5,"Genbrugspladsen Storvorde","Engvej 26","9280","Storvorde","Danmark","info@sorupgenbrug.dk","12345678"
+6,"Genbrugsplads og Genbrugscenter Hou","Skovsgårdsvej 145","9370","Hals","Danmark","info@sorupgenbrug.dk","61873091"
