@@ -37,9 +37,15 @@ class NewsController {
       include: [
         {
           model: Images,
-          attributes: 
-            [Sequelize.literal('CONCAT(first_name, " ", filename)'), 'filename'],
-        },
+          attributes: [
+            'filename',
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Database/', 
+              Sequelize.col('filename')
+            ), 'absolute_path']
+          ]
+        }
       ],
     })
     // Udskriver resultat i json format
