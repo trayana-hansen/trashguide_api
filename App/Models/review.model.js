@@ -30,7 +30,7 @@ Reviews.init({
 		type: DataTypes.DATE,
 		allowNull: false,
 	},	
-	event_id: {
+	item_id: {
 		type: DataTypes.INTEGER,
 		allowNull: true
 	},
