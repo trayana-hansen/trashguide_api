@@ -1,5 +1,6 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
+import Orgs from '../../Core/Models/org.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
 class Reviews extends Model {}
@@ -30,13 +31,21 @@ Reviews.init({
 		type: DataTypes.DATE,
 		allowNull: false,
 	},	
-	item_id: {
+	org_id: {
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false,
+		references: {
+			model: Orgs,
+			key: 'id'
+		}
 	},
 	user_id: {
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false,
+		references: {
+			model: Orgs,
+			key: 'id'
+		}
 	},
 	is_active: {
 		type: DataTypes.BOOLEAN,

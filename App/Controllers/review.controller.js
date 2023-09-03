@@ -1,13 +1,14 @@
 import Users from '../../Core/Models/user.model.js'
-import Events from '../Models/event.model.js'
+import Orgs from '../../Core/Models/org.model.js'
 import Reviews from '../Models/review.model.js'
+import { getUserFromToken } from '../../Middleware/auth.js'
 
 // Sætter modellers relationelle forhold - een til mange
 Users.hasMany(Reviews)
 Reviews.belongsTo(Users)
 
-Events.hasMany(Reviews)
-Reviews.belongsTo(Events)
+Orgs.hasMany(Reviews)
+Reviews.belongsTo(Orgs)
 
 class ReviewsController {
 
@@ -18,25 +19,33 @@ class ReviewsController {
 	 * @return {array} Returnerer JSON array
 	 */
 	list = async (req, res) => {
-		try {
-			const result = await Reviews.findAll({
-				attributes: ['id', 'subject', 'num_stars', 'created_at'],
-				include: [{
-					model: Users,
-					attributes: ['firstname', 'lastname', 'email']
-				}, {
-					model: Events,
-					attributes: ['title']
-				}],
-				where: { event_id: req.params.event_id }
-	
-			})
-			// Parser resultat som json
-			res.json(result)			
-		} catch (error) {
-			res.status(418).send({
-				message: `Something went wrong: ${error}`
-			})						
+		const { org_id } = req.params
+
+		if(org_id) {
+			try {
+				const result = await Reviews.findAll({
+					attributes: ['id', 'subject', 'num_stars', 'created_at'],
+					include: [{
+						model: Users,
+						attributes: ['id','firstname', 'lastname', 'email']
+					}, {
+						model: Orgs,
+						attributes: ['id','name']
+					}],
+					where: { org_id: org_id }
+		
+				})
+				// Parser resultat som json
+				res.json(result)			
+			} catch (error) {
+				res.status(418).send({
+					message: `Something went wrong: ${error}`
+				})						
+			}	
+		} else {
+			res.status(403).send({
+				message: `Wrong parameter values`
+			})					
 		}
 
 	}
@@ -58,8 +67,8 @@ class ReviewsController {
 						model: Users,
 						attributes: ['firstname', 'lastname', 'email']
 					}, {
-						model: Events,
-						attributes: ['title']
+						model: Orgs,
+						attributes: ['name']
 					}],
 		
 					where: { id: req.params.id}
@@ -84,10 +93,12 @@ class ReviewsController {
 	 * @return {number} Returnerer nyt id
 	 */
 	 create = async (req, res) => {
-		const { subject, comment, date, num_stars, event_id } = req.body
+		const user_id = await getUserFromToken(req, res)
+		const { subject, comment, date, num_stars, org_id } = req.body
 
-		if(subject && comment && num_stars && event_id) {
+		if(subject && comment && num_stars && org_id) {
 			try {
+				req.body.user_id = user_id
 				const model = await Reviews.create(req.body)
 				return res.json({
 					message: `Record created`,
@@ -112,13 +123,12 @@ class ReviewsController {
 	 * @return {boolean} Returnerer true/false
 	 */	
 	 update = async (req, res) => {
-
 		const { id, subject, comment, num_stars, is_active } = req.body
 
 		if(id, subject && comment && num_stars && is_active) {
 			try {
 				const model = await Reviews.update(req.body, {
-					where: {id: id}
+					where: { id: id }
 				})
 				return res.json({
 					message: `Record updated`	

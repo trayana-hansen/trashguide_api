@@ -1,5 +1,6 @@
-import sequelize from "../Config/sequelize.config.js"
-import { Images } from "../Models/image.model.js"
+import sequelize from "../../Config/sequelize.config.js"
+import { QueryParamsHandle } from "../../Middleware/helpers.js"
+import Images from "../Models/image.model.js"
 
 /**
  * Controller foc City Actions

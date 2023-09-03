@@ -5,6 +5,8 @@ import { Authorize } from '../Middleware/auth.js'
 import CategoryController from '../App/Controllers/category.controller.js'
 import TypeController from '../App/Controllers/type.controller.js'
 import NewsController from '../App/Controllers/news.controller.js'
+import ReviewsController from '../App/Controllers/review.controller.js'
+import ImageController from '../App/Controllers/image.controller.js'
 
 // Section Routes
 const sectioncontrol = new SectionController
@@ -34,5 +36,18 @@ AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(re
 const newscontrol = new NewsController
 AppRouter.get('/news', (req, res) => { newscontrol.list(req, res) })
 AppRouter.get('/news/:id([0-9]*)', (req, res) => { newscontrol.details(req, res) })
+
+// Review Routes
+const reviewcontrol = new ReviewsController
+AppRouter.get('/reviews/:org_id([0-9]*)', (req, res) => { reviewcontrol.list(req, res) })
+AppRouter.get('/reviews/details/:id([0-9]*)', (req, res) => { reviewcontrol.details(req, res) })
+AppRouter.post('/reviews', Authorize, (req, res) => { reviewcontrol.create(req, res) })
+AppRouter.put('/reviews', Authorize, (req, res) => { reviewcontrol.update(req, res) })
+AppRouter.delete('/reviews/:id([0-9]*)', Authorize, (req, res) => { reviewcontrol.remove(req, res) })
+
+// Images Routes
+const imgcontrol = new ImageController;
+AppRouter.get('/imagelist', (req, res) => { imgcontrol.list(req, res) })
+
 
 export default AppRouter
