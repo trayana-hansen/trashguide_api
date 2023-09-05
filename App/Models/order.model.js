@@ -1,9 +1,9 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
-class Orgs extends Model {}
+class Orders extends Model{}
 
-Orgs.init({
+Orders.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -26,30 +26,18 @@ Orgs.init({
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	country: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
 	phone: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: false
-	},
-	longtitude: {
-		type: DataTypes.DOUBLE,
-		allowNull: true
-	},
-	latitude: {
-		type: DataTypes.DOUBLE,
-		allowNull: true
 	}
-},{
+}, {
 	sequelize,
-	modelName: 'org',
-	underscored: true
+	modelName: 'order',
+	underscored: true,
 })
 
-export default Orgs
+export default Orders
