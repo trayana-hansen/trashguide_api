@@ -14,6 +14,7 @@ import Types from '../../App/Models/type.model.js';
 import Sections from '../../App/Models/section.model.js';
 import CategoryTypeRel from '../../App/Models/category_type_rel.model.js';
 import News from '../../App/Models/news.model.js';
+import Article from '../../App/Models/article.model.js';
 import Reviews from '../../App/Models/review.model.js';
 import Orders from '../../App/Models/order.model.js';
 
@@ -73,6 +74,10 @@ class SeedController {
 			// News
 			const newsData = await this.get_csv_data('news.csv')
 			const insertedNews = await News.bulkCreate(newsData, { transaction });
+
+			// Articles
+			const articleData = await this.get_csv_data('article.csv')
+			const insertedArticle = await Article.bulkCreate(articleData, { transaction });
 
 			// Reviews
 			const reviewData = await this.get_csv_data('review.csv')
