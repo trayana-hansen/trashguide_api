@@ -53,17 +53,17 @@ class SectionController {
 			arrIncludes.push({
 				model: Categories,
 				attributes: [
-					'title', 
-					[Sequelize.fn(
+					'title', 'icon_filename',  
+					[Sequelize.fn(	
 						'CONCAT', 
 						'http://localhost:3000/Assets/Images/Icons/', 
 						Sequelize.col('icon_filename')
-					), 'icon_filename'],
+					), 'icon_filepath'],'image_filename',
 					[Sequelize.fn(
 						'CONCAT', 
 						'http://localhost:3000/Assets/Images/Categories/', 
 						Sequelize.col('image_filename')
-					), 'image_filename']
+					), 'image_filepath']
 				],
 				include: arrCatIncludes
 			})		
@@ -76,12 +76,12 @@ class SectionController {
 				limit: qp.limit,
 				attributes: [
 					'id', 
-					'title',
+					'title','filename',
 					[Sequelize.fn(
 						'CONCAT', 
 						'http://localhost:3000/Assets/Images/Categories/', 
 						Sequelize.col('filename')
-					), 'filename']					
+					), 'filepath']					
 				],
 				include: arrIncludes
 			})

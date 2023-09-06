@@ -28,15 +28,15 @@ class TypesController {
 
 				include: {
 					model: Categories,
-					attributes: [],
-					where: { id: category_id }
+					attributes: ['id'],
+					through: {
+						attributes: ['is_allowed', 'is_station', 'is_home'],
+						as: 'rules'
+					}
 				}
 			})
 			// Parser resultat som json
-			res.json({
-				category_id: category_id, 
-				types: result
-			})
+			res.json(result)
 		} catch(err) {
 			res.status(418).send({
 				message: `Unable to list records: ${err}`

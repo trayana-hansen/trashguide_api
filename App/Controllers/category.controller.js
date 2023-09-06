@@ -2,6 +2,7 @@ import Categories from '../Models/category.model.js'
 import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 import { QueryParamsHandle } from '../../Middleware/helpers.js';
+import { Sequelize } from 'sequelize';
 
 class CategoryController {
 
@@ -12,7 +13,7 @@ class CategoryController {
 	 * @return {array} Returnerer JSON array
 	 */
 	list = async (req, res) => {
-		const qp = QueryParamsHandle(req, 'id, title')
+		const qp = QueryParamsHandle(req, '')
 		const { incl_types } = req.query
 
 		const arrIncludes = []
@@ -37,7 +38,22 @@ class CategoryController {
 			const result = await Categories.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
-				attributes: qp.attributes,
+				attributes: [
+					'id',
+					'title',
+					'image_filename',
+					[Sequelize.fn(	
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Categories/', 
+						Sequelize.col('image_filename')
+					), 'image_filepath'],
+					'icon_filename',
+					[Sequelize.fn(	
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Icons/', 
+						Sequelize.col('icon_filename')
+					), 'icon_filepath']					
+				],
 				include: arrIncludes
 			})
 			// Parser resultat som json
