@@ -43,7 +43,7 @@ class ArticleController {
               'CONCAT', 
               'http://localhost:3000/Assets/Images/Database/', 
               Sequelize.col('filename')
-            ), 'absolute_path']
+            ), 'filepath']
           ]
         }
       ],
@@ -67,7 +67,24 @@ class ArticleController {
       include: [
         {
           model: Images,
-          attributes: ["filename"]
+          attributes: [
+            "filename",
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Database/large/', 
+              Sequelize.col('filename')
+            ), 'filepath_large'],
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Database/medium/', 
+              Sequelize.col('filename')
+            ), 'filepath_medium'],
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Database/small/', 
+              Sequelize.col('filename')
+            ), 'filepath_small']
+          ]
         }
       ]
     })

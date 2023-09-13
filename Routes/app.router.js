@@ -7,6 +7,7 @@ import TypeController from '../App/Controllers/type.controller.js'
 import ArticleController from '../App/Controllers/article.controller.js'
 import ReviewsController from '../App/Controllers/review.controller.js'
 import ImageController from '../App/Controllers/image.controller.js'
+import OrderController from '../App/Controllers/order.controller.js'
 
 // Section Routes
 const sectioncontrol = new SectionController
@@ -41,6 +42,14 @@ AppRouter.get('/articles/:id([0-9]*)', (req, res) => { articlecontrol.details(re
 const reviewcontrol = new ReviewsController
 AppRouter.get('/reviews/:org_id([0-9]*)', (req, res) => { reviewcontrol.list(req, res) })
 AppRouter.get('/reviews/details/:id([0-9]*)', (req, res) => { reviewcontrol.details(req, res) })
+AppRouter.post('/reviews', Authorize, (req, res) => { reviewcontrol.create(req, res) })
+AppRouter.put('/reviews', Authorize, (req, res) => { reviewcontrol.update(req, res) })
+AppRouter.delete('/reviews/:id([0-9]*)', Authorize, (req, res) => { reviewcontrol.remove(req, res) })
+
+// Order Routes
+const ordercontrol = new OrderController
+AppRouter.get('/orders', (req, res) => { ordercontrol.list(req, res) })
+AppRouter.get('/orders/:id([0-9]*)', (req, res) => { ordercontrol.details(req, res) })
 AppRouter.post('/reviews', Authorize, (req, res) => { reviewcontrol.create(req, res) })
 AppRouter.put('/reviews', Authorize, (req, res) => { reviewcontrol.update(req, res) })
 AppRouter.delete('/reviews/:id([0-9]*)', Authorize, (req, res) => { reviewcontrol.remove(req, res) })
