@@ -17,6 +17,7 @@ import News from '../../App/Models/news.model.js';
 import Article from '../../App/Models/article.model.js';
 import Reviews from '../../App/Models/review.model.js';
 import Orders from '../../App/Models/order.model.js';
+import Containers from '../../App/Models/container.model.js';
 
 /**
  * Controller for Seed Actions
@@ -78,6 +79,10 @@ class SeedController {
 			// Articles
 			const articleData = await this.get_csv_data('article.csv')
 			const insertedArticle = await Article.bulkCreate(articleData, { transaction });
+
+			// Containers
+			const containerData = await this.get_csv_data('container.csv')
+			const insertedContainer = await Containers.bulkCreate(containerData, { transaction });
 
 			// Reviews
 			const reviewData = await this.get_csv_data('review.csv')

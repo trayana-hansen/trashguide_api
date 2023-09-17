@@ -10,7 +10,7 @@ Orders.init({
 		allowNull: false,
 		primaryKey: true
 	},
-	name: {
+	fullname: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},

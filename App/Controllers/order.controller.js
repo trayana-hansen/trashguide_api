@@ -49,6 +49,34 @@ class OrderController {
     // Udskriver resultat i json format
     res.json(result)
   }
+
+	/**
+	 * Create Metode - opretter ny record
+	 * @param {object} req Request Object
+	 * @param {object} res Response Object
+	 * @return {number} Returnerer nyt id
+	 */
+  create = async (req, res) => {
+		const { fullname, address, zipcode, city, email, phone } = req.body
+
+		if(fullname && address && zipcode && city && email) {
+			try {
+				const model = await Orders.create(req.body)
+				return res.json({
+					message: `Record created`,
+					newId: model.id
+				})					
+			} catch (error) {
+				res.status(418).send({
+					message: `Could not create record: ${error}`
+				})									
+			}
+		} else {
+			res.status(403).send({
+				message: `Wrong parameter values`
+			})					
+		}
+	}  
 }
 
 export default OrderController
