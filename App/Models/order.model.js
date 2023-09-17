@@ -1,5 +1,6 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
+import Containers from './container.model.js'
 
 class Orders extends Model{}
 
@@ -9,6 +10,14 @@ Orders.init({
 		autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
+	},
+	container_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: Containers,
+			key: 'id'
+		}
 	},
 	fullname: {
 		type: DataTypes.STRING,
