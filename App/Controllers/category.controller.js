@@ -44,13 +44,13 @@ class CategoryController {
 					'image_filename',
 					[Sequelize.fn(	
 						'CONCAT', 
-						'http://localhost:3000/Assets/Images/Categories/', 
+						'http://localhost:3000/Assets/Images/Guide/Categories/', 
 						Sequelize.col('image_filename')
 					), 'image_filepath'],
 					'icon_filename',
 					[Sequelize.fn(	
 						'CONCAT', 
-						'http://localhost:3000/Assets/Images/Icons/', 
+						'http://localhost:3000/Assets/Images/Guide/Icons/', 
 						Sequelize.col('icon_filename')
 					), 'icon_filepath']					
 				],
