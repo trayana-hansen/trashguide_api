@@ -4,9 +4,7 @@ import SectionController from '../App/Controllers/section.controller.js'
 import { Authorize } from '../Middleware/auth.js'
 import CategoryController from '../App/Controllers/category.controller.js'
 import TypeController from '../App/Controllers/type.controller.js'
-import ArticleController from '../App/Controllers/article.controller.js'
 import ReviewsController from '../App/Controllers/review.controller.js'
-import ImageController from '../App/Controllers/image.controller.js'
 import OrderController from '../App/Controllers/order.controller.js'
 import ContainerController from '../App/Controllers/container.controller.js'
 
@@ -34,11 +32,6 @@ AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
 AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })
 AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(req, res) })
 
-// Article Routes
-const articlecontrol = new ArticleController
-AppRouter.get('/articles', (req, res) => { articlecontrol.list(req, res) })
-AppRouter.get('/articles/:id([0-9]*)', (req, res) => { articlecontrol.details(req, res) })
-
 // Review Routes
 const reviewcontrol = new ReviewsController
 AppRouter.get('/reviews/:org_id([0-9]*)', (req, res) => { reviewcontrol.list(req, res) })
@@ -57,10 +50,6 @@ AppRouter.post('/orders', (req, res) => { ordercontrol.create(req, res) })
 const containercontrol = new ContainerController
 AppRouter.get('/containers', (req, res) => { containercontrol.list(req, res) })
 AppRouter.get('/containers/:id([0-9]*)', (req, res) => { containercontrol.details(req, res) })
-
-// Images Routes
-const imgcontrol = new ImageController;
-AppRouter.get('/imagelist', (req, res) => { imgcontrol.list(req, res) })
 
 
 export default AppRouter

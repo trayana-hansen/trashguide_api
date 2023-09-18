@@ -9,12 +9,9 @@ import Users from '../../Core/Models/user.model.js';
 import UserGroupRel from '../../Core/Models/user-group-rel.model.js';
 
 import Categories from '../../App/Models/category.model.js';
-import Image from '../../App/Models/image.model.js';
 import Types from '../../App/Models/type.model.js';
 import Sections from '../../App/Models/section.model.js';
 import CategoryTypeRel from '../../App/Models/category_type_rel.model.js';
-import News from '../../App/Models/news.model.js';
-import Article from '../../App/Models/article.model.js';
 import Reviews from '../../App/Models/review.model.js';
 import Orders from '../../App/Models/order.model.js';
 import Containers from '../../App/Models/container.model.js';
@@ -49,12 +46,7 @@ class SeedController {
 			const userGroupsData = await this.get_csv_data('user-group-rel.csv')
 			const insertedUserGroups = await UserGroupRel.bulkCreate(userGroupsData, { transaction });
 
-
 			//////////////////// 
-
-			// Images
-			const imageData = await this.get_csv_data('image.csv')
-			const insertedImage = await Image.bulkCreate(imageData, { transaction });
 
 			// Sections
 			const sectionData = await this.get_csv_data('section.csv')
@@ -68,17 +60,9 @@ class SeedController {
 			const typeData = await this.get_csv_data('type.csv')
 			const insertedType = await Types.bulkCreate(typeData, { transaction });
 
-			// Types
+			// Category Type Relation
 			const categoryTypeData = await this.get_csv_data('category_type_rel.csv')
 			const insertedCategoryType = await CategoryTypeRel.bulkCreate(categoryTypeData, { transaction });
-
-			// News
-			const newsData = await this.get_csv_data('news.csv')
-			const insertedNews = await News.bulkCreate(newsData, { transaction });
-
-			// Articles
-			const articleData = await this.get_csv_data('article.csv')
-			const insertedArticle = await Article.bulkCreate(articleData, { transaction });
 
 			// Containers
 			const containerData = await this.get_csv_data('container.csv')
