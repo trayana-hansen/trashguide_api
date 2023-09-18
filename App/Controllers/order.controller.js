@@ -22,7 +22,7 @@ class OrderController {
     // Sætter attributter (table felter)
     const attr = attributes
       ? attributes.split(",")
-      : new Array("id", "name", "email")
+      : new Array("id", "fullname", "email")
 
     // Eksekverer sequelize metode med management values
     const result = await Orders.findAll({
