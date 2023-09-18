@@ -77,6 +77,25 @@ class CategoryController {
 		if(id) {
 			// Sætter resultat efter sq metode
 			try {
+				// Definerer types relationer 
+				Types.belongsToMany(Categories, { through: CategoryTypeRel });
+				Categories.belongsToMany(Types, { through: CategoryTypeRel });
+
+				// Deklarerer array med category table joins
+				const arrCatIncludes = []
+
+				// Deklarerer array med types table joins
+				arrCatIncludes.push({
+					model: Types,
+					attributes: ['id','title'],
+					through: {
+						attributes: ['is_allowed', 'is_station', 'is_home'],
+						as: 'rules'
+					}
+				})
+
+				console.log(arrCatIncludes);
+
 				const result = await Categories.findOne({
 					attributes: [
 						'id', 
@@ -96,6 +115,7 @@ class CategoryController {
 						'created_at',
 						'updated_at'
 					],
+					include: arrCatIncludes,
 					// Where clause
 					where: { id: req.params.id}
 				});
