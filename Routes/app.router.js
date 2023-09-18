@@ -19,7 +19,7 @@ AppRouter.delete('/section/:id([0-9]*)', (req, res) => { sectioncontrol.remove(r
 // Category Routes
 const catcontrol = new CategoryController
 AppRouter.get('/categories/:section_id([0-9]*)', (req, res) => { catcontrol.list(req, res) })
-//AppRouter.get('/category/:id([0-9]*)', (req, res) => { catcontrol.details(req, res) })
+AppRouter.get('/category/details/:id([0-9]*)', (req, res) => { catcontrol.details(req, res) })
 AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
 AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })
 AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(req, res) })
