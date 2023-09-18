@@ -108,13 +108,8 @@ class SectionController {
 			try {
 				const result = await Sections.findOne({
 					attributes: [
-						'id', 'title', 'description', 'color', 'created_at', 'updated_at',
-						'price', 'created_at'
+						'id', 'title', 'description', 'color', 'filename', 'created_at', 'updated_at'
 					],
-					include: [{
-						model: Images,
-						attributes: ['id', 'name', 'filename']
-					}],
 					// Where clause
 					where: { id: req.params.id}
 				});
@@ -123,7 +118,7 @@ class SectionController {
 					
 			} catch (error) {
 				res.status(403).send({
-					message: `Something went wrong: ${err}`
+					message: `Something went wrong: ${error}`
 				})					
 			}
 		} else {
