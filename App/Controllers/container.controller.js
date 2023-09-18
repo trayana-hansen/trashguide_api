@@ -13,7 +13,7 @@ class ContainerController {
 	 */
 	list = async (req, res) => {
 		// Indhenter parametre fra request objekt
-		const qp = QueryParamsHandle(req, 'id, name')
+		const qp = QueryParamsHandle(req, 'id, name, icon_filename')
 
 		try {
 			// Eksekverer sequelize metode med management values
@@ -44,7 +44,7 @@ class ContainerController {
 			try {
 				// Eksekverer sequelize metode med attributter og where clause
 				const result = await Containers.findOne({
-					attributes: ['id', 'name', 'description'],
+					attributes: ['id', 'name', 'icon_filename'],
 					where: { id: id }
 				})
 				// Udskriver resultat i json format

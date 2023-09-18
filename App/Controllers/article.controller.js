@@ -41,9 +41,19 @@ class ArticleController {
             'filename',
             [Sequelize.fn(
               'CONCAT', 
-              'http://localhost:3000/Assets/Images/Database/', 
+              'http://localhost:3000/Assets/Images/Photos/large/', 
               Sequelize.col('filename')
-            ), 'filepath']
+            ), 'filepath_large'],
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Photos/medium/', 
+              Sequelize.col('filename')
+            ), 'filepath_medium'],
+            [Sequelize.fn(
+              'CONCAT', 
+              'http://localhost:3000/Assets/Images/Photos/small/', 
+              Sequelize.col('filename')
+            ), 'filepath_small']
           ]
         }
       ],

@@ -14,8 +14,8 @@ Containers.init({
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	description: {
-		type: DataTypes.TEXT,
+	icon_filename: {
+		type: DataTypes.STRING,
 		allowNull: false
 	}
 }, {
