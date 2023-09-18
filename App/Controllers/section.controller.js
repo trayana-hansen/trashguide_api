@@ -5,6 +5,15 @@ import Types from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 import { Sequelize } from 'sequelize';
 
+// Definerer category relationer 
+Sections.hasMany(Categories)
+Categories.belongsTo(Sections)
+
+// Definerer types relationer 
+Types.belongsToMany(Categories, { through: CategoryTypeRel });
+Categories.belongsToMany(Types, { through: CategoryTypeRel });
+
+
 class SectionController {
 
 	/**
@@ -24,18 +33,11 @@ class SectionController {
 
 		// Hvis categories er true
 		if(incl_categories) {
-			// Definerer category relationer 
-			Sections.hasMany(Categories)
-			Categories.belongsTo(Sections)
-
 			// Deklarerer array med category table joins
 			const arrCatIncludes = []
 
 			// Hvis types er true
 			if(incl_types) {
-				// Definerer types relationer 
-				Types.belongsToMany(Categories, { through: CategoryTypeRel });
-				Categories.belongsToMany(Types, { through: CategoryTypeRel });
 				
 				// Deklarerer array med types table joins
 				arrCatIncludes.push({
@@ -76,7 +78,7 @@ class SectionController {
 				limit: qp.limit,
 				attributes: [
 					'id', 
-					'title','filename',
+					'title','color','filename',
 					[Sequelize.fn(
 						'CONCAT', 
 						'http://localhost:3000/Assets/Images/Guide/Categories/', 
@@ -108,8 +110,37 @@ class SectionController {
 			try {
 				const result = await Sections.findOne({
 					attributes: [
-						'id', 'title', 'description', 'color', 'filename', 'created_at', 'updated_at'
+						'id', 
+						'title', 
+						'description', 
+						'color', 
+						[Sequelize.fn(
+						'CONCAT', 
+						'http://localhost:3000/Assets/Images/Guide/Categories/', 
+						Sequelize.col('filename')
+					), 'filepath'],
+						'created_at', 
+						'updated_at'
 					],
+					include: {
+						model: Categories,
+						attributes: [
+							'id', 
+							'title', 
+							'icon_filename', 
+							[Sequelize.fn(
+								'CONCAT', 
+								'http://localhost:3000/Assets/Images/Guide/Icons/', 
+								Sequelize.col('icon_filename')
+							), 'icon_filepath'],							
+							'image_filename',
+							[Sequelize.fn(
+								'CONCAT', 
+								'http://localhost:3000/Assets/Images/Guide/Categories/', 
+								Sequelize.col('image_filename')
+							), 'image_filepath'],
+						]
+					},
 					// Where clause
 					where: { id: req.params.id}
 				});
