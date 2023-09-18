@@ -7,6 +7,7 @@ import TypeController from '../App/Controllers/type.controller.js'
 import ReviewsController from '../App/Controllers/review.controller.js'
 import OrderController from '../App/Controllers/order.controller.js'
 import ContainerController from '../App/Controllers/container.controller.js'
+import SearchController from '../App/Controllers/search.controller.js'
 
 // Section Routes
 const sectioncontrol = new SectionController
@@ -31,6 +32,10 @@ AppRouter.get('/types/:category_id([0-9]*)', (req, res) => { typecontrol.list(re
 AppRouter.post('/categories', (req, res) => { catcontrol.create(req, res) })
 AppRouter.put('/categories/:id([0-9]*)', (req, res) => { catcontrol.update(req, res) })
 AppRouter.delete('/categories/:id([0-9]*)', (req, res) => { catcontrol.remove(req, res) })
+
+// Search Route
+const searchcontrol = new SearchController
+AppRouter.get('/search/:keyword', (req, res) => { searchcontrol.search(req, res) })
 
 // Review Routes
 const reviewcontrol = new ReviewsController
